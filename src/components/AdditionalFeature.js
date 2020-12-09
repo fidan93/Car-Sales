@@ -9,15 +9,30 @@ const AdditionalFeature = props => {
    props.additionalFeature(props.feature.id)
   }
 
+  const checkChosen=()=>{
+    let chosen = false;
+     props.features.forEach(item=>{
+       if(item.id===props.feature.id){
+         chosen=true;
+       }
+     })
+     return chosen;
+  }
+
   return (
     <li>
       {/* Add an onClick that will let you add a feature to your car */}
-      <button className="button" onClick={clickHandler}>Add</button>
+      <button disabled={checkChosen()} className="button" onClick={clickHandler} style={checkChosen()? {background: "red"}:{background:'green'}}>Add</button>
       {props.feature.name} (+{props.feature.price})
     </li>
   );
 
 };
 
+const mapStateToProps=(state)=>{
+  return {
+      features:state.features
+  }
+}
 
-export default AdditionalFeature;
+export default connect(mapStateToProps)(AdditionalFeature);
